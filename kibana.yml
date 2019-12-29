@@ -1,0 +1,56 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+        - name: kibana
+          image: docker.elastic.co/kibana/kibana-oss:6.4.3
+          env:
+            - name: ELASTICSEARCH_URL
+              value: "http://10.0.0.52:9200"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: default
+spec:
+  ports:
+    - name: http
+      targetPort: 5601
+      port: 5601
+  selector:
+    app: kibana
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kibana
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+    - host: logs.data.from.io
+      http:
+      paths:
+        - path: /
+          backend:
+          serviceName: kibana
+          servicePort: http
