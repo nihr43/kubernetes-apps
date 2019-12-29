@@ -49,8 +49,8 @@ spec:
   rules:
     - host: logs.data.from.io
       http:
-      paths:
-        - path: /
-          backend:
-          serviceName: kibana
-          servicePort: http
+        paths:
+          - path: /
+            backend:
+              serviceName: kibana
+              servicePort: http

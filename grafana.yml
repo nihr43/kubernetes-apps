@@ -47,8 +47,8 @@ spec:
   rules:
     - host: grafana.data.from.io
       http:
-      paths:
-        - path: /
-          backend:
-          serviceName: grafana
-          servicePort: http
+        paths:
+          - path: /
+            backend:
+              serviceName: grafana
+              servicePort: http
