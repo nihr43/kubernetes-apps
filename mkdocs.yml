@@ -1,0 +1,54 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mkdocs
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mkdocs
+  template:
+    metadata:
+      labels:
+        app: mkdocs
+    spec:
+      containers:
+        - name: mkdocs
+          image: 10.0.0.57:5000/mkdocs:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mkdocs
+  namespace: default
+spec:
+  ports:
+    - name: http
+      targetPort: 3000
+      port: 3000
+  selector:
+    app: mkdocs
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mkdocs
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+
+spec:
+  rules:
+    - host: mkdocs.data.from.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mkdocs
+              servicePort: http
