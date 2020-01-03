@@ -45,7 +45,7 @@ metadata:
 
 spec:
   rules:
-    - host: mkdocs.data.from.io
+    - host: data.from.io
       http:
         paths:
           - path: /
