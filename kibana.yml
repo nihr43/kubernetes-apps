@@ -36,21 +36,3 @@ spec:
       port: 5601
   selector:
     app: kibana
-
----
-
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: kibana
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
-spec:
-  rules:
-    - host: logs.data.from.io
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: kibana
-              servicePort: http
